@@ -1,0 +1,32 @@
+<script language="javascript" type="text/javascript">  
+
+	//create a new WebSocket object.
+	var wsUri = "ws://0.0.0.0:10001/"; 	
+	ws = new WebSocket(wsUri); 
+	
+	ws.onopen = function(event) {							// connection is open 
+		console.log('Open connection!');
+	}
+
+	ws.onmessage = function(event) {
+		var post = JSON.parse(event.data);					//PHP sends Json data
+		console.log(post.title);							//message type
+		console.log(post.url);								//message text
+		console.log(post.hubs);								//user name
+	};
+
+	ws.onclose = function(msg) {
+		if(this.readyState == 2)
+			console.log('Closing... The connection is going throught the closing handshake (readyState '+this.readyState+')');
+		else if(this.readyState == 3)
+			console.log('Connection closed... The connection has been closed or could not be opened (readyState '+this.readyState+')');
+		else
+			console.log('Connection closed... (unhandled readyState '+this.readyState+')');
+	};
+
+	ws.onerror = function(event) {
+		console.log(event);
+	};
+
+</script>
+Open console
